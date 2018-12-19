@@ -1,0 +1,13 @@
+Package: TENxhgmmBUS
+Type: Package
+Title: TENx hgmm datasets in BUS format
+Version: 0.1.0
+Authors@R: 
+    person("Lambda", "Moses", email = "dlu2@caltech.edu", 
+    role = c("aut", "cre"))
+Description: 
+    Download 1:1 Mixture of Fresh Frozen Human (HEK293T) and Mouse (NIH3T3) 
+    Cells datasets from 10x Genomics in the BUS format from within R.
+License: BSD 2-Clause
+Encoding: UTF-8
+LazyData: true
