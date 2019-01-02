@@ -1,0 +1,21 @@
+meta <- data.frame(Title = paste(c("100", "1k"),
+                                 "human and mouse cells from 10x (v2 chemistry)"),
+                   Description = paste(c("100", "1k"),
+                                       "1:1 Mixture of Fresh Frozen Human (HEK293T) and Mouse (NIH3T3) Cells (10x v2 chemistry)"),
+                   BiocVersion = "3.9",
+                   Genome = "GRCh38.p12, GRCm38.p6",
+                   SourceType = "FASTQ",
+                   SourceUrl= c("http://cf.10xgenomics.com/samples/cell-exp/2.1.0/hgmm_100/hgmm_100_fastqs.tar",
+                                "http://cf.10xgenomics.com/samples/cell-exp/2.1.0/hgmm_1k/hgmm_1k_fastqs.tar"),
+                   SourceVersion = "November 8, 2017",
+                   Species = "Homo sapiens, Mus musculus",
+                   TaxonomyId = "9606, 10090",
+                   Coordinate_1_based = FALSE,
+                   DataProvider = "10x",
+                   RDataClass = "dgCMatrix",
+                   DispatchClass = "FilePath",
+                   RDataPath = c("TENxhgmmBUS/hgmm100.tar.gz",
+                                 "TENxhgmmBUS/hgmm1k.tar.gz"),
+                   stringsAsFactors = FALSE)
+
+write.csv(meta, "./inst/extdata/metadata.csv", quote = FALSE, row.names = FALSE)
