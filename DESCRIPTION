@@ -1,7 +1,7 @@
 Package: TENxhgmmBUS
 Type: Package
 Title: TENx hgmm datasets in BUS format
-Version: 0.1.0
+Version: 0.99.0
 Authors@R: 
     person("Lambda", "Moses", email = "dlu2@caltech.edu", 
     role = c("aut", "cre"))
@@ -10,4 +10,7 @@ Description:
     Cells datasets from 10x Genomics in the BUS format from within R.
 License: BSD 2-Clause
 Encoding: UTF-8
-LazyData: true
+Depends: BUSpaRse
+biocViews: SingleCellData, SequencingData, ExperimentHub
+BugReports: https://github.com/BUStools/TENxhgmmBUS/issues
+URL: https://github.com/BUStools/TENxhgmmBUS
