@@ -10,7 +10,7 @@ Description:
     Cells datasets from 10x Genomics in the BUS format from within R.
 License: BSD 2-Clause
 Encoding: UTF-8
-Depends: BUSpaRse
+Imports: ExperimentHub, R.utils
 biocViews: SingleCellData, SequencingData, ExperimentHub
 BugReports: https://github.com/BUStools/TENxhgmmBUS/issues
 URL: https://github.com/BUStools/TENxhgmmBUS
