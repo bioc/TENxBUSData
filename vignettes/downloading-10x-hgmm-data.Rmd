@@ -1,0 +1,41 @@
+---
+title: "Downloading 10x hgmm data"
+author: "Lambda Moses"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Downloading 10x hgmm data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette demonstrates how to download the hgmm data in the BUS format with this package.
+```{r}
+library(TENxhgmmBUS)
+library(ExperimentHub)
+```
+
+See which datasets are available with this package.
+```{r}
+eh <- ExperimentHub()
+listResources(eh, "TENxhgmmBUS")
+```
+
+In this vignette, we download the 100 cell dataset. The `force` argument will force redownload even if the files are already present.
+```{r}
+download_hgmm(".", dataset = "hgmm100", force = TRUE)
+```
+
+Which files are downloaded?
+```{r}
+list.files("./out_hgmm100")
+```
+
+These should be sufficient to construct a sparse matrix with package [`BUSpaRse`](https://github.com/BUStools/BUSpaRse). 

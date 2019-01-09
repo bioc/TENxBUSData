@@ -1,3 +1,4 @@
+inst/doc
 .Rproj.user
 .Rhistory
 .RData
@@ -6,4 +7,4 @@
 *.tar
 *.gz
 *.idx
-out_hgmm100/*
+vignettes/out_hgmm100/*

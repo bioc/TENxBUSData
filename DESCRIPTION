@@ -8,9 +8,15 @@ Authors@R:
 Description: 
     Download 1:1 Mixture of Fresh Frozen Human (HEK293T) and Mouse (NIH3T3) 
     Cells datasets from 10x Genomics in the BUS format from within R.
-License: BSD 2-Clause
+License: BSD_2_clause + file LICENSE
 Encoding: UTF-8
-Imports: ExperimentHub, R.utils
+Depends: R (>= 3.5.0)
+Imports: ExperimentHub, AnnotationHub
 biocViews: SingleCellData, SequencingData, ExperimentHub
 BugReports: https://github.com/BUStools/TENxhgmmBUS/issues
 URL: https://github.com/BUStools/TENxhgmmBUS
+RoxygenNote: 6.1.1
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
