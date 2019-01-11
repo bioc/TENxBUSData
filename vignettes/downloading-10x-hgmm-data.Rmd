@@ -2,7 +2,7 @@
 title: "Downloading 10x hgmm data"
 author: "Lambda Moses"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: BiocStyle::html_document
 vignette: >
   %\VignetteIndexEntry{Downloading 10x hgmm data}
   %\VignetteEngine{knitr::rmarkdown}
