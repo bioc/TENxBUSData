@@ -1,7 +1,7 @@
 Package: TENxhgmmBUS
 Type: Package
 Title: TENx hgmm datasets in BUS format
-Version: 0.99.0
+Version: 0.99.1
 Authors@R: 
     person("Lambda", "Moses", email = "dlu2@caltech.edu", 
     role = c("aut", "cre"))
