@@ -5,7 +5,7 @@ date: "1/2/2019"
 output: html_document
 ---
 
-Below is how the 100 cell dataset are prepared. First, we process the fastq files to generate the gz file you download. Then we load the data from the gz file. For the 1k cell dataset, see [the website of the BUSpaRse package](https://bustools.github.io/BUS_notebooks_R/10xv2.html)
+Below is how the 100 cell dataset are prepared. First, we process the fastq files to generate the gz file you download. Then we load the data from the gz file. The other datasets were prepared the same way.
 
 ## Download data
 First download the fastq files from the 10x website
