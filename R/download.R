@@ -1,4 +1,4 @@
-#' TENxhgmmBUS: 10x human and mouse cell mixture datasets in the BUS format
+#' TENxBUSData: 10x human and mouse cell mixture datasets in the BUS format
 #'
 #' This package provides 5 10x datasets in the
 #' \href{https://doi.org/10.1093/bioinformatics/btz279}{BUS format},
@@ -56,8 +56,9 @@ NULL
 #'
 TENxBUSData <- function(file_path, dataset = "hgmm100", force = FALSE) {
   file_path <- normalizePath(file_path, mustWork = TRUE)
-  if (!dataset %in% c("hgmm100", "hgmm1k")) {
-    stop("The argument dataset should be either 'hgmm100' or 'hgmm1k'\n")
+  dss <- c("hgmm100", "hgmm1k", "pbmc1k", "neuron10k", "retina")
+  if (!dataset %in% dss) {
+    stop("The argument dataset should be one of ", paste(dss, collapse = ", "))
   }
   out <- paste0(file_path, "/out_", dataset)
   files_desired <- c("matrix.ec", "output.sorted", "output.sorted.txt",
@@ -69,9 +70,10 @@ TENxBUSData <- function(file_path, dataset = "hgmm100", force = FALSE) {
     return(out)
   }
   cache_path <- getExperimentHubOption("CACHE")
+  # Need to change this line after uploading data
   id <- ifelse(dataset == "hgmm100", "2113", "2114")
   eh <- ExperimentHub()
-  ds <- query(eh, "TENxhgmmBUS")
+  ds <- query(eh, "TENxBUSData")
   ds[[paste0("EH", id), force = force]]
   untar(paste(cache_path, id, sep = "/"), exdir = file_path)
   cat("The downloaded files are in", out, "\n")
