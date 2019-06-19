@@ -4,7 +4,8 @@ Title: Single cell dataset from 10x in BUS format
 Version: 0.99.1
 Authors@R: 
     person("Lambda", "Moses", email = "dlu2@caltech.edu", 
-    role = c("aut", "cre"))
+    role = c("aut", "cre"),
+    comment = c(ORCID = "0000-0002-7092-9427"))
 Description: 
     Download Barcode, Set, and UMI (BUS) format of 10x datasets from within R.
     This package accompanies the package BUSpaRse, which can load BUS format
@@ -18,6 +19,7 @@ biocViews: SingleCellData, SequencingData, ExperimentHub
 BugReports: https://github.com/BUStools/TENxBUSData/issues
 URL: https://github.com/BUStools/TENxBUSData
 RoxygenNote: 6.1.1
+Roxygen: list(markdown = TRUE)
 Suggests: 
     knitr,
     rmarkdown,
