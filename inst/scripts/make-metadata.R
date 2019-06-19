@@ -5,14 +5,14 @@ meta <- data.frame(Title = c("100 1:1 Mixture of Fresh Frozen Human (HEK293T) an
                              "SRR8599150 Mouse Retina"),
                    Description = "",
                    BiocVersion = "3.10",
-                   Genome = c("GRCh38.p12", "GRCh38.p12", "GRCh38.p12", 
+                   Genome = c("GRCh38.p12", "GRCh38.p12", "GRCh38.p12",
                               "GRCm38.p6", "GRCm38.p6"),
                    SourceType = "FASTQ",
-                   SourceUrl= c("http://cf.10xgenomics.com/samples/cell-exp/2.1.0/hgmm_100/hgmm_100_fastqs.tar",
-                                "http://cf.10xgenomics.com/samples/cell-exp/3.0.0/hgmm_1k_v3/hgmm_1k_v3_fastqs.tar",
-                                "http://cf.10xgenomics.com/samples/cell-exp/3.0.0/pbmc_1k_v3/pbmc_1k_v3_fastqs.tar",
-                                "http://s3-us-west-2.amazonaws.com/10x.files/samples/cell-exp/3.0.0/neuron_10k_v3/neuron_10k_v3_fastqs.tar",
-                                "https://www.ncbi.nlm.nih.gov/sra/?term=SRR8599150"),
+                   SourceUrl = c("http://cf.10xgenomics.com/samples/cell-exp/2.1.0/hgmm_100/hgmm_100_fastqs.tar",
+                                 "http://cf.10xgenomics.com/samples/cell-exp/3.0.0/hgmm_1k_v3/hgmm_1k_v3_fastqs.tar",
+                                 "http://cf.10xgenomics.com/samples/cell-exp/3.0.0/pbmc_1k_v3/pbmc_1k_v3_fastqs.tar",
+                                 "http://s3-us-west-2.amazonaws.com/10x.files/samples/cell-exp/3.0.0/neuron_10k_v3/neuron_10k_v3_fastqs.tar",
+                                 "https://www.ncbi.nlm.nih.gov/sra/?term=SRR8599150"),
                    SourceVersion = c("2017-11-08", rep("2018-11-19", 3), "2019-03-13"),
                    Species = c(rep("Homo sapiens", 3), rep("Mus musculus", 2)),
                    TaxonomyId = c(rep("9606", 3), rep("10090", 2)),
@@ -26,5 +26,5 @@ meta <- data.frame(Title = c("100 1:1 Mixture of Fresh Frozen Human (HEK293T) an
                                         "pbmc1k.tar.gz", "neuron10k.tar.gz",
                                         "retina.tar.gz")),
                    stringsAsFactors = FALSE)
-
+meta$Description <- meta$Title
 write.csv(meta, "./inst/extdata/metadata.csv", row.names = FALSE)
