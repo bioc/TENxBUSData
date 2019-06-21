@@ -10,18 +10,18 @@
 #' This package server the following purposes: First, to demonstrate the kallisto
 #' bus workflow and downstream analyses. Second, for advanced users to experiment
 #' with other ways to collapse UMIs mapped to multiple genes and with other ways
-#' of barcode correction. 
+#' of barcode correction.
 #'
 #' @section Datasets:
 #' \describe{
-#' \item{hgmm100}{100 1:1 Mixture of Fresh Frozen Human (HEK293T) and Mouse 
+#' \item{hgmm100}{100 1:1 Mixture of Fresh Frozen Human (HEK293T) and Mouse
 #' (NIH3T3) Cells. The raw data can be found here:
 #' \url{https://support.10xgenomics.com/single-cell-gene-expression/datasets/2.1.0/hgmm_100}}
-#' \item{hgmm1k}{1k 1:1 Mixture of Fresh Frozen Human (HEK293T) and Mouse 
+#' \item{hgmm1k}{1k 1:1 Mixture of Fresh Frozen Human (HEK293T) and Mouse
 #' (NIH3T3) Cells (v3 chemistry). The raw data can be found here:
 #' \url{https://support.10xgenomics.com/single-cell-gene-expression/datasets/3.0.0/hgmm_1k_v3}}
-#' \item{pbmc1k}{1k PBMCs from a Healthy Donor (v3 chemistry). The raw data can 
-#' be found here: 
+#' \item{pbmc1k}{1k PBMCs from a Healthy Donor (v3 chemistry). The raw data can
+#' be found here:
 #' \url{https://support.10xgenomics.com/single-cell-gene-expression/datasets/3.0.0/pbmc_1k_v3}}
 #' \item{neuron10k}{10k Brain Cells from an E18 Mouse (v3 chemistry). The raw
 #' data can be found here:
@@ -38,7 +38,13 @@ NULL
 #' This function will download the 10x datasets, already processed and stored in
 #' the BUS format, from \code{ExperimentHub}. This function will decompress the
 #' downloaded file and return the directory where the files necessary to
-#' construct the sparse matrix with \code{BUSpaRse} are located. 
+#' construct the sparse matrix with \code{BUSpaRse} are located.
+#'
+#' The gzipped file downloaded from `ExperimentHub` will be in a cache directory
+#' that can be retrieved by `getExperimentHubOption("CACHE")`. The cache will
+#' remain even if the decompressed files in the directory specified when calling
+#' this function are deleted. To delete cache, use
+#' \code{\link[AnnotationHub]{removeCache}}.
 #'
 #' @param file_path Character vector of length 1, specifying where to download
 #' the data.
@@ -46,15 +52,18 @@ NULL
 #' "neuron10k", and "retina".
 #' @param force Logical, whether to force redownload if the files are already
 #' present. Defaults to \code{FALSE}.
+#' @param verbose Whether to display progress of download.
 #' @return Character, directory to be used in \code{BUSpaRse}.
 #' @importFrom ExperimentHub ExperimentHub getExperimentHubOption
 #' @importFrom AnnotationHub query
+#' @importFrom BiocGenerics fileName
 #' @importFrom utils untar
 #' @export
 #' @examples
 #' TENxBUSData(".", dataset = "hgmm100")
 #'
-TENxBUSData <- function(file_path, dataset = "hgmm100", force = FALSE) {
+TENxBUSData <- function(file_path, dataset = "hgmm100",
+                        force = FALSE, verbose = TRUE) {
   file_path <- normalizePath(file_path, mustWork = TRUE)
   dss <- c("hgmm100", "hgmm1k", "pbmc1k", "neuron10k", "retina")
   if (!dataset %in% dss) {
@@ -70,12 +79,13 @@ TENxBUSData <- function(file_path, dataset = "hgmm100", force = FALSE) {
     return(out)
   }
   cache_path <- getExperimentHubOption("CACHE")
-  # Need to change this line after uploading data
-  id <- ifelse(dataset == "hgmm100", "2113", "2114")
+  ids <- 2648:2652
+  names(ids) <- dss
+  id <- paste0("EH", ids[dataset])
   eh <- ExperimentHub()
   ds <- query(eh, "TENxBUSData")
-  ds[[paste0("EH", id), force = force]]
-  untar(paste(cache_path, id, sep = "/"), exdir = file_path)
+  ds[[id, force = force, verbose = verbose]]
+  untar(fileName(ds)[id], exdir = file_path)
   cat("The downloaded files are in", out, "\n")
   return(out)
 }
