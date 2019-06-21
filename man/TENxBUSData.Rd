@@ -43,6 +43,20 @@ downloaded file and return the directory where the files necessary to
 construct the sparse matrix with \code{BUSpaRse} are located.
 }
 \details{
+The following files will be downloaded:
+
+\describe{
+\item{\code{matrix.ec}}{Text file with 2 columns. The first column is the
+index of equivalence classes used in BUS files. The second column is the
+equivalence classes themselves, consisted of sets of transcript indices from
+the kallisto index.}
+\item{\code{output.sorted}}{Binary BUS file sorted by barcode, UMI, and
+equivalence classes. This can be directly parsedd by \code{bustools} to get
+the gene count matrix.}
+\item{\code{output.sorted.txt}}{Sorted BUS file in text form. This is to be
+used with \code{BUSpaRse} to get the gene count matrix.}
+\item{\code{transcripts.txt}}{}}
+
 The gzipped file downloaded from \code{ExperimentHub} will be in a cache directory
 that can be retrieved by \code{getExperimentHubOption("CACHE")}. The cache will
 remain even if the decompressed files in the directory specified when calling
