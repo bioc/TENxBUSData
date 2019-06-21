@@ -7,15 +7,19 @@ Authors@R:
     role = c("aut", "cre"),
     comment = c(ORCID = "0000-0002-7092-9427"))
 Description: 
-    Download Barcode, Set, and UMI (BUS) format of 10x datasets from within R.
+    Download Barcode, UMI, and Set (BUS) format of 10x datasets from within R.
     This package accompanies the package BUSpaRse, which can load BUS format
     into R as a sparse matrix, and which has utility functions related to using
     the C++ command line package bustools.
 License: BSD_2_clause + file LICENSE
 Encoding: UTF-8
-Depends: R (>= 3.6.0)
 Imports: ExperimentHub, AnnotationHub, utils, BiocGenerics
-biocViews: SingleCellData, SequencingData, ExperimentHub
+biocViews: 
+    SingleCellData, 
+    SequencingData, 
+    ExperimentHub, 
+    ExperimentData, 
+    ExpressionData
 BugReports: https://github.com/BUStools/TENxBUSData/issues
 URL: https://github.com/BUStools/TENxBUSData
 RoxygenNote: 6.1.1
