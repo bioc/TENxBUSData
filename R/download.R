@@ -52,7 +52,8 @@ NULL
 #' the gene count matrix.}
 #' \item{\code{output.sorted.txt}}{Sorted BUS file in text form. This is to be
 #' used with \code{BUSpaRse} to get the gene count matrix.}
-#' \item{\code{transcripts.txt}}{}}
+#' \item{\code{transcripts.txt}}{Transcripts included in the BUS data, in the
+#' same order as in the kallisto index.}}
 #'
 #' The gzipped file downloaded from `ExperimentHub` will be in a cache directory
 #' that can be retrieved by `getExperimentHubOption("CACHE")`. The cache will
