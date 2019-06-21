@@ -58,7 +58,7 @@ NULL
 #' that can be retrieved by `getExperimentHubOption("CACHE")`. The cache will
 #' remain even if the decompressed files in the directory specified when calling
 #' this function are deleted. To delete cache, use
-#' \code{\link[AnnotationHub]{removeCache}}.
+#' \code{\link{removeCache}}.
 #'
 #' @param file_path Character vector of length 1, specifying where to download
 #' the data.
