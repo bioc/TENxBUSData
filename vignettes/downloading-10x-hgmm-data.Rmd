@@ -16,7 +16,16 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette demonstrates how to download the hgmm data in the BUS format with this package.
+This package provides the barcode, UMI, and set (BUS) format of the following datasets from 10X genomics:
+
+* [100 1:1 Mixture of Fresh Frozen Human (HEK293T) and Mouse (NIH3T3) Cells (v2 chemistry)](https://support.10xgenomics.com/single-cell-gene-expression/datasets/2.1.0/hgmm_100)
+* [1k 1:1 Mixture of Fresh Frozen Human (HEK293T) and Mouse (NIH3T3) Cells (v3 chemistry)](https://support.10xgenomics.com/single-cell-gene-expression/datasets/3.0.0/hgmm_1k_v3)
+* [1k PBMCs from a Healthy Donor (v3 chemistry)](https://support.10xgenomics.com/single-cell-gene-expression/datasets/3.0.0/pbmc_1k_v3)
+* [10k Brain Cells from an E18 Mouse (v3 chemistry)](https://support.10xgenomics.com/single-cell-gene-expression/datasets/3.0.0/neuron_10k_v3)
+* [Mouse retina data from publication (SRR8599150)](https://www.ncbi.nlm.nih.gov/sra/?term=SRR8599150)
+
+The original fastq files have already been processed into the BUS format, which is a table with the following columns: barcode, UMI, equivalence class/set, and count (i.e. number of reads for the same barcode, UMI, and set). The datasets have been uploaded to `ExperimentHub`. This vignette demonstrates how to download the first dataset above with this package. See the [BUSpaRse website](https://bustools.github.io/BUS_notebooks_R/index.html) for more detailed vignettes.
+
 ```{r}
 library(TENxBUSData)
 library(ExperimentHub)

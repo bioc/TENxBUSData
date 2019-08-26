@@ -10,7 +10,7 @@
 #' This package server the following purposes: First, to demonstrate the kallisto
 #' bus workflow and downstream analyses. Second, for advanced users to experiment
 #' with other ways to collapse UMIs mapped to multiple genes and with other ways
-#' of barcode correction.
+#' of barcode correction. The datasets are on \code{ExperimentHub}.
 #'
 #' @section Datasets:
 #' \describe{
