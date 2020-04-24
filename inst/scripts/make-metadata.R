@@ -19,7 +19,7 @@ meta <- data.frame(Title = c("100 1:1 Mixture of Fresh Frozen Human (HEK293T) an
                    Maintainer = "Lambda Moses <dlu2@caltech.edu>",
                    RDataClass = "dgCMatrix",
                    DispatchClass = "FilePath",
-                   RDataPath = paste0("TENxBUSData/",
+                   RDataPath = paste0("TENxBUSData/v1.2/",
                                       c("hgmm100.tar.gz", "hgmm1k.tar.gz",
                                         "pbmc1k.tar.gz", "neuron10k.tar.gz")),
                    stringsAsFactors = FALSE)
