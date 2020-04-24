@@ -8,32 +8,63 @@ output: html_document
 Below is how the 100 cell dataset are prepared. First, we process the fastq files to generate the gz file you download. Then we load the data from the gz file. The other datasets were prepared the same way.
 
 ## Download data
-First download the fastq files from the 10x website
+First download the fastq files
+
 ```{r}
-download.file("http://cf.10xgenomics.com/samples/cell-exp/2.1.0/hgmm_100/hgmm_100_fastqs.tar", destfile = "hgmm_100_fastqs.tar")
+urls <- c("http://cf.10xgenomics.com/samples/cell-exp/2.1.0/hgmm_100/hgmm_100_fastqs.tar",
+                                 "http://cf.10xgenomics.com/samples/cell-exp/3.0.0/hgmm_1k_v3/hgmm_1k_v3_fastqs.tar",
+                                 "http://cf.10xgenomics.com/samples/cell-exp/3.0.0/pbmc_1k_v3/pbmc_1k_v3_fastqs.tar",
+                                 "http://s3-us-west-2.amazonaws.com/10x.files/samples/cell-exp/3.0.0/neuron_10k_v3/neuron_10k_v3_fastqs.tar")
 ```
 
-Then untar this file
-```{bash}
-tar -xvf ./hgmm_100_fastqs.tar
+```{r}
+file_names <- c("hgmm_100_fastqs.tar", "hgmm_1k_v3_fastqs.tar", "pbmc_1k_v3_fastqs.tar", "neuron_10k_v3_fastqs.tar")
+```
+
+```{r}
+for (i in seq_along(urls)) {
+  if (!file.exists(file_names[i])) download.file(urls[i], destfile = file_names[i])
+}
+```
+
+```{r}
+for(f in file_names) {
+  untar(f)
+}
 ```
 
 ## Build the `kallisto` index
 Here we use [kallisto](https://pachterlab.github.io/kallisto/about) (see this link for install instructions) to pseudoalign the reads to the transcriptome and then to create the `bus` file to be converted to a sparse matrix. The first step is to build an index of the transcriptome. This data set has both human and mouse cells, so we need both human and mouse transcriptomes.
-```{r, cache=TRUE}
-# Human transcriptome
-download.file("ftp://ftp.ensembl.org/pub/release-94/fasta/homo_sapiens/cdna/Homo_sapiens.GRCh38.cdna.all.fa.gz", "./hs_cdna.fa.gz", quiet = TRUE)
-# Mouse transcriptome
-download.file("ftp://ftp.ensembl.org/pub/release-94/fasta/mus_musculus/cdna/Mus_musculus.GRCm38.cdna.all.fa.gz", "./mm_cdna.fa.gz", quiet = TRUE)
+
+```{r}
+library(BUSpaRse)
 ```
 
-Actually, we don't need to unzip the fasta files 
+```{r}
+dl_transcriptome(species = "Homo sapiens", gene_biotype_use = "cellranger", 
+                 out_path = "./ref_hs")
+dl_transcriptome(species = "Mus musculus", gene_biotype_use = "cellranger",
+                 out_path = "./ref_mm")
+```
+
+Index for human and mouse mixed data
 ```{bash, cache=TRUE}
-kallisto index -i hs_mm_tr_index.idx ./hs_cdna.fa.gz ./mm_cdna.fa.gz
+kallisto index -i hs_mm_tr_index.idx ref_hs/tx_filtered.fa ref_mm/tx_filtered.fa
+```
+
+Index for human
+```{bash, cache = TRUE}
+kallisto index -i ref_hs/hs_tr_index.idx ref_hs/tx_filtered.fa
+```
+
+Index for mouse
+```{bash, cache = TRUE}
+kallisto index -i ref_mm/mm_tr_index.idx ref_mm/tx_filtered.fa
 ```
 
 ## Run `kallisto bus`
 
+For hgmm100 data
 ```{bash}
 kallisto bus -i ./hs_mm_tr_index.idx -o ./out_hgmm100 -x 10xv2 -t8 \
 ./fastqs/hgmm_100_S1_L001_R1_001.fastq.gz ./fastqs/hgmm_100_S1_L001_R2_001.fastq.gz \
@@ -46,27 +77,94 @@ kallisto bus -i ./hs_mm_tr_index.idx -o ./out_hgmm100 -x 10xv2 -t8 \
 ./fastqs/hgmm_100_S1_L008_R1_001.fastq.gz ./fastqs/hgmm_100_S1_L008_R2_001.fastq.gz
 ```
 
-See what are the outputs
+For hgmm1k data
 ```{r}
-list.files("./out_hgmm100/")
+fns <- list.files("hgmm_1k_v3_fastqs", pattern = "R", full.names = TRUE)
+(command <- paste("kallisto bus -i ./hs_mm_tr_index.idx -o ./out_hgmm1k -x 10xv2 -t8",
+                 paste(fns, collapse = " ")))
+```
+
+```{r}
+system(command)
+```
+
+For pbmc1k
+```{r}
+fns <- list.files("pbmc_1k_v3_fastqs", pattern = "R", full.names = TRUE)
+(command <- paste("kallisto bus -i ref_hs/hs_tr_index.idx -o ./out_pbmc1k -x 10xv3 -t8",
+                 paste(fns, collapse = " ")))
+```
+
+```{r}
+system(command)
+```
+
+For neuron10k
+```{r}
+fns <- list.files("neuron_10k_v3_fastqs", pattern = "R", full.names = TRUE)
+(command <- paste("kallisto bus -i ref_mm/mm_tr_index.idx -o ./out_neuron10k -x 10xv3 -t8",
+                 paste(fns, collapse = " ")))
+```
+
+```{r}
+system(command)
 ```
 
 ## Run `BUStools`
 The `output.bus` file is a binary. In order to make R parse it, we need to convert it into a sorted text file. There's a command line tool [`bustools`](https://github.com/BUStools/bustools) for this.
 
+For hgmm100
+
 ```{bash}
-# Add where I installed bustools to PATH
-export PATH=$PATH:/home/lambda/mylibs/bin/
 # Sort
 bustools sort -o ./out_hgmm100/output.sorted -t8 ./out_hgmm100/output.bus
 # Convert sorted file to text
 bustools text -o ./out_hgmm100/output.sorted.txt ./out_hgmm100/output.sorted
 ```
 
+```{bash}
+# Sort
+bustools sort -o ./out_hgmm1k/output.sorted -t8 ./out_hgmm1k/output.bus
+# Convert sorted file to text
+bustools text -o ./out_hgmm1k/output.sorted.txt ./out_hgmm1k/output.sorted
+```
+
+```{bash}
+# Sort
+bustools sort -o ./out_pbmc1k/output.sorted -t8 ./out_pbmc1k/output.bus
+# Convert sorted file to text
+bustools text -o ./out_pbmc1k/output.sorted.txt ./out_pbmc1k/output.sorted
+```
+
+```{bash}
+# Sort
+bustools sort -o ./out_neuron10k/output.sorted -t8 ./out_neuron10k/output.bus
+# Convert sorted file to text
+bustools text -o ./out_neuron10k/output.sorted.txt ./out_neuron10k/output.sorted
+```
+
 ## Compress data for S3 storage
 All files necessary to construct a sparse matrix with `BUSpaRse` are stored in Amazon S3 as a gz file. Here is how that gz file is made:
+```{r}
+(dirs <- list.files(pattern = "out"))
+```
+
+```{r}
+(commands <- sapply(dirs, function(d) {
+  paste("GZIP=-9 tar -cvzf", paste0(stringr::str_remove(d, "^out_"), ".tar.gz"),
+        paste0(d, "/output.sorted"), paste0(d, "/output.sorted.txt"),
+        paste0(d, "/matrix.ec"), paste0(d, "/transcripts.txt"))
+}))
+```
+
+```{r}
+for (i in commands) {
+  system(i)
+}
+```
+
 ```{bash}
-GZIP=-9 tar -cvzf hgmm100.tar.gz ./out_hgmm100/output.sorted.txt ./out_hgmm100/matrix.ec ./out_hgmm100/transcripts.txt
+GZIP=-9 tar -cvzf hgmm100.tar.gz ./out_hgmm100/output.sorted.txt ./out_hgmm100/matrix.ec ./out_hgmm100/transcripts.txt ./out_hgmm100/output.sorted
 ```
 
 The gz file is what you download. Then it can be loaded with the `BUSpaRse` package. See the vignette of `BUSpaRse` for how to load the data downloaded from this package.
