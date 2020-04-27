@@ -6,7 +6,7 @@
 #' sufficient to generate a sparse matrix with package
 #' \href{https://github.com/BUStools/BUSpaRse}{BUSpaRse}
 #' to be used for downstream analysis with Seurat. Human and mouse transcriptomes
-#' from Ensembl version 94 were used to generate the BUS format from FASTQ files.
+#' from Ensembl version 99 were used to generate the BUS format from FASTQ files.
 #' This package server the following purposes: First, to demonstrate the kallisto
 #' bus workflow and downstream analyses. Second, for advanced users to experiment
 #' with other ways to collapse UMIs mapped to multiple genes and with other ways
@@ -26,8 +26,6 @@
 #' \item{neuron10k}{10k Brain Cells from an E18 Mouse (v3 chemistry). The raw
 #' data can be found here:
 #' \url{https://support.10xgenomics.com/single-cell-gene-expression/datasets/3.0.0/neuron_10k_v3}}
-#' \item{retina}{Mouse retina data from publication (SRR8599150).
-#' \url{https://www.ncbi.nlm.nih.gov/sra/?term=SRR8599150}}
 #' }
 #' @docType package
 #' @name TENxBUSData
@@ -64,7 +62,7 @@ NULL
 #' @param file_path Character vector of length 1, specifying where to download
 #' the data.
 #' @param dataset Character, must be one of "hgmm100", "hgmm1k", "pbmc1k",
-#' "neuron10k", and "retina".
+#' "neuron10k".
 #' @param force Logical, whether to force redownload if the files are already
 #' present. Defaults to \code{FALSE}.
 #' @param verbose Whether to display progress of download.
@@ -77,13 +75,12 @@ NULL
 #' @examples
 #' TENxBUSData(".", dataset = "hgmm100")
 #'
-TENxBUSData <- function(file_path, dataset = "hgmm100",
+TENxBUSData <- function(file_path, dataset = c("hgmm100", "hgmm1k", "pbmc1k",
+                                               "neuron10k"),
                         force = FALSE, verbose = TRUE) {
   file_path <- normalizePath(file_path, mustWork = TRUE)
-  dss <- c("hgmm100", "hgmm1k", "pbmc1k", "neuron10k", "retina")
-  if (!dataset %in% dss) {
-    stop("The argument dataset should be one of ", paste(dss, collapse = ", "))
-  }
+  dss <- c("hgmm100", "hgmm1k", "pbmc1k", "neuron10k")
+  dataset <- match.arg(dataset)
   out <- paste0(file_path, "/out_", dataset)
   files_desired <- c("matrix.ec", "output.sorted", "output.sorted.txt",
                      "transcripts.txt")
@@ -94,7 +91,7 @@ TENxBUSData <- function(file_path, dataset = "hgmm100",
     return(out)
   }
   cache_path <- getExperimentHubOption("CACHE")
-  ids <- 2648:2652
+  ids <- 3332:3335
   names(ids) <- dss
   id <- paste0("EH", ids[dataset])
   eh <- ExperimentHub()
