@@ -1,7 +1,7 @@
 Package: TENxBUSData
 Type: Package
 Title: Single cell dataset from 10x in BUS format
-Version: 1.2.0
+Version: 1.2.1
 Authors@R: 
     person("Lambda", "Moses", email = "dlu2@caltech.edu", 
     role = c("aut", "cre"),
@@ -22,7 +22,7 @@ biocViews:
     ExpressionData
 BugReports: https://github.com/BUStools/TENxBUSData/issues
 URL: https://github.com/BUStools/TENxBUSData
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)
 Suggests: 
     knitr,

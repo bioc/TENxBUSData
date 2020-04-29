@@ -3,18 +3,21 @@
 \docType{package}
 \name{TENxBUSData}
 \alias{TENxBUSData}
-\alias{TENxBUSData-package}
 \title{TENxBUSData: 10x human and mouse cell mixture datasets in the BUS format}
 \usage{
-TENxBUSData(file_path, dataset = "hgmm100", force = FALSE,
-  verbose = TRUE)
+TENxBUSData(
+  file_path,
+  dataset = c("hgmm100", "hgmm1k", "pbmc1k", "neuron10k"),
+  force = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{file_path}{Character vector of length 1, specifying where to download
 the data.}
 
 \item{dataset}{Character, must be one of "hgmm100", "hgmm1k", "pbmc1k",
-"neuron10k", and "retina".}
+"neuron10k".}
 
 \item{force}{Logical, whether to force redownload if the files are already
 present. Defaults to \code{FALSE}.}
@@ -31,11 +34,11 @@ to be downloaded from within R. The files downloaded from this package are
 sufficient to generate a sparse matrix with package
 \href{https://github.com/BUStools/BUSpaRse}{BUSpaRse}
 to be used for downstream analysis with Seurat. Human and mouse transcriptomes
-from Ensembl version 94 were used to generate the BUS format from FASTQ files.
+from Ensembl version 99 were used to generate the BUS format from FASTQ files.
 This package server the following purposes: First, to demonstrate the kallisto
 bus workflow and downstream analyses. Second, for advanced users to experiment
 with other ways to collapse UMIs mapped to multiple genes and with other ways
-of barcode correction.
+of barcode correction. The datasets are on \code{ExperimentHub}.
 
 This function will download the 10x datasets, already processed and stored in
 the BUS format, from \code{ExperimentHub}. This function will decompress the
@@ -79,8 +82,6 @@ be found here:
 \item{neuron10k}{10k Brain Cells from an E18 Mouse (v3 chemistry). The raw
 data can be found here:
 \url{https://support.10xgenomics.com/single-cell-gene-expression/datasets/3.0.0/neuron_10k_v3}}
-\item{retina}{Mouse retina data from publication (SRR8599150).
-\url{https://www.ncbi.nlm.nih.gov/sra/?term=SRR8599150}}
 }
 }
 
